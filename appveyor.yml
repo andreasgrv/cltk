@@ -2,6 +2,11 @@
 # and: https://github.com/ogrisel/python-appveyor-demo/blob/master/appveyor.yml
 # and: https://github.com/cython/cython/blob/master/appveyor.yml (which is based on above)
 # so try not to fall into a cyclic dependency when reading this
+
+branches:
+  only:
+    - appveyor
+
 matrix:
   fast_finish: true
 
