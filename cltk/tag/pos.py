@@ -5,7 +5,7 @@ import os
 from nltk.tag import CRFTagger
 from nltk.tokenize import wordpunct_tokenize
 
-from cltk.utils.file_operations import open_pickle
+from cltk.utils.file_operations import open_pickle, make_cltk_path
 
 
 __author__ = 'Kyle P. Johnson <kyle@kyle-p-johnson.com>'
@@ -46,10 +46,8 @@ class POSTag():
         """
         assert lang in TAGGERS.keys(), \
             'POS tagger not available for {0} language.'.format(lang)
-        rel_path = os.path.join('~/cltk_data',
-                                lang,
-                                'model/' + lang + '_models_cltk/taggers/pos')  # pylint: disable=C0301
-        path = os.path.expanduser(rel_path)
+        path = make_cltk_path(lang, 'model',
+                              lang + '_models_cltk/taggers/pos')  # pylint: disable=C0301
         tagger_paths = {}
         for tagger_key, tagger_val in TAGGERS[lang].items():
             tagger_path = os.path.join(path, tagger_val)

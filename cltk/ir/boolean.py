@@ -13,6 +13,7 @@ from whoosh.qparser import QueryParser
 from cltk.corpus.greek.tlg.id_author import ID_AUTHOR as TLG_AUTHOR_MAP
 from cltk.corpus.latin.phi5_index import PHI5_INDEX as PHI5_AUTHOR_MAP
 from cltk.utils.cltk_logger import logger
+from cltk.utils.file_operations import make_cltk_path
 
 
 __author__ = 'Kyle P. Johnson <kyle@kyle-p-johnson.com>'
@@ -28,9 +29,7 @@ class CLTKIndex:
         chunks = ['author', 'work']
         assert self.chunk in chunks, 'Chunk must be one of the following: {}.'.format(chunks)
 
-        self.index_dir_base = os.path.expanduser('~/cltk_data')
-        self.index_dir_base = os.path.join(self.index_dir_base, lang, 'index')
-        self.index_path = os.path.join(self.index_dir_base, corpus, chunk)
+        self.index_path = make_cltk_path(lang, 'index', corpus, chunk)
 
     def index_corpus(self):
         """Make a Whoosh index out of a pre-processed corpus, ie TLG, PHI5,
@@ -68,13 +67,13 @@ class CLTKIndex:
 
         # Setup corpus to be indexed
         if self.lang == 'greek' and self.corpus == 'tlg':
-            corpus_path = os.path.expanduser('~/cltk_data/greek/text/tlg/plaintext/')
+            corpus_path = make_cltk_path('greek', 'text', 'tlg', 'plaintext')
             if self.chunk == 'work':
-                corpus_path = os.path.expanduser('~/cltk_data/greek/text/tlg/individual_works/')
+                corpus_path = make_cltk_path('greek', 'text', 'tlg', 'individual_works')
         elif self.lang == 'latin' and self.corpus == 'phi5':
-            corpus_path = os.path.expanduser('~/cltk_data/latin/text/phi5/plaintext/')
+            corpus_path = make_cltk_path('latin', 'text', 'phi5', 'plaintext')
             if self.chunk == 'work':
-                corpus_path = os.path.expanduser('~/cltk_data/latin/text/phi5/individual_works/')
+                corpus_path = make_cltk_path('latin', 'text', 'phi5', 'individual_works')
         assert os.path.isdir(corpus_path), 'Corpus does not exist in the following location: "%s". Use CLTK Corpus Importer and TLGU to create transformed corpus.' % corpus_path  # pylint: disable=line-too-long
 
         files = os.listdir(corpus_path)
@@ -188,7 +187,7 @@ class CLTKIndex:
                 output_str += lines_br + '</br></br>'
 
         if save_file:
-            user_dir = os.path.expanduser('~/cltk_data/user_data/search')
+            user_dir = make_cltk_path('user_data', 'search')
             output_path = os.path.join(user_dir, save_file + '.html')
 
             try:
@@ -212,7 +211,7 @@ if __name__ == '__main__':
     #_results = cltk_index.corpus_query('ἀνὴρ')
     #print(_results)
 
-    user_dir = os.path.expanduser('~/cltk_data/user_data/search')
+    user_dir = make_cltk_path('user_data', 'search')
     output_file = 'amicitia.html'
     output_path = os.path.join(user_dir, output_file)
 

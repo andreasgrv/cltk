@@ -4,7 +4,7 @@ __author__ = 'Kyle P. Johnson <kyle@kyle-p-johnson.com>'
 __license__ = 'MIT License. See LICENSE.'
 
 
-from cltk.utils.file_operations import open_pickle
+from cltk.utils.file_operations import open_pickle, make_cltk_path
 from nltk.tokenize.punkt import PunktLanguageVars
 from nltk.tokenize.punkt import PunktSentenceTokenizer
 import os
@@ -47,10 +47,8 @@ class TokenizeSentence():  # pylint: disable=R0903
         internal_punctuation = PUNCTUATION[lang]['internal']
         external_punctuation = PUNCTUATION[lang]['external']
         file = PUNCTUATION[lang]['file']
-        rel_path = os.path.join('~/cltk_data',
-                                lang,
-                                'model/' + lang + '_models_cltk/tokenizers/sentence')  # pylint: disable=C0301
-        path = os.path.expanduser(rel_path)
+        path = make_cltk_path(lang, 'model',
+                              os.path.join(lang + '_models_cltk', 'tokenizers', 'sentence'))
         tokenizer_path = os.path.join(path, file)
         assert os.path.isfile(tokenizer_path), \
             'CLTK linguistics data not found for language {0}'.format(lang)

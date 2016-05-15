@@ -12,6 +12,7 @@ from cltk.corpus.multilingual.corpora import MULTILINGUAL_CORPORA
 from cltk.corpus.pali.corpora import PALI_CORPORA
 from cltk.corpus.tibetan.corpora import TIBETAN_CORPORA
 from cltk.utils.cltk_logger import logger
+from cltk.utils.file_operations import make_cltk_path
 
 import errno
 from git import RemoteProgress
@@ -28,7 +29,6 @@ __license__ = 'MIT License. See LICENSE.'
 
 
 AVAILABLE_LANGUAGES = ['chinese', 'coptic', 'greek', 'latin', 'multilingual', 'pali', 'tibetan', 'sanskrit']
-CLTK_DATA_DIR = '~/cltk_data'
 LANGUAGE_CORPORA = {'chinese': CHINESE_CORPORA,
                     'coptic': COPTIC_CORPORA,
                     'greek': GREEK_CORPORA,
@@ -144,7 +144,7 @@ class CorpusImporter():
         if location == 'remote':
             git_uri = urljoin('https://github.com/cltk/', corpus_name + '.git')
             # self._download_corpus(corpus_type, corpus_name, path)
-            type_dir_rel = os.path.join(CLTK_DATA_DIR, self.language, corpus_type)
+            type_dir_rel = make_cltk_path(self.language, corpus_type)
             type_dir = os.path.expanduser(type_dir_rel)
             target_dir = os.path.join(type_dir, corpus_name)
             target_file = os.path.join(type_dir, corpus_name, 'README.md')
@@ -199,16 +199,13 @@ class CorpusImporter():
                     if os.path.split(local_path)[1] != 'TLG_E':
                         logger.info("Directory must be named 'TLG_E'.")
                 # move the dir-checking commands into a function
-                data_dir = os.path.expanduser(CLTK_DATA_DIR)
-                originals_dir = os.path.join(data_dir, 'originals')
+                originals_dir = make_cltk_path('originals')
                 # check for `originals` dir; if not present mkdir
                 if not os.path.isdir(originals_dir):
                     os.makedirs(originals_dir)
                     msg = "Wrote directory at '{}'.".format(originals_dir)
                     logger.info(msg)
-                tlg_originals_dir = os.path.join(data_dir,
-                                                 'originals',
-                                                 corpus_name)
+                tlg_originals_dir = make_cltk_path('originals', corpus_name)
                 # check for `originals/<corpus_name>`; if pres, delete
                 if os.path.isdir(tlg_originals_dir):
                     shutil.rmtree(tlg_originals_dir)

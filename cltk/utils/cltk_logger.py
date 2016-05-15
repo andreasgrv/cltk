@@ -3,12 +3,13 @@
 import logging
 import logging.config
 import os
+from cltk.utils.file_operations import make_cltk_path
 
 __author__ = ['Kyle P. Johnson <kyle@kyle-p-johnson.com>',
               'Stephen Margheim <stephen.margheim@gmail.com>']
 __license__ = 'MIT License. See LICENSE.'
 
-home_dir = os.path.expanduser('~/cltk_data')  # pylint: disable=invalid-name
+home_dir = make_cltk_path()
 log_path = os.path.join(home_dir, 'cltk.log')  # pylint: disable=invalid-name
 
 if not os.path.isdir(home_dir):

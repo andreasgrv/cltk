@@ -6,6 +6,7 @@ __license__ = 'MIT License. See LICENSE.'
 from cltk.corpus.utils.importer import CorpusImporter
 from cltk.stop.greek.stops import STOPS_LIST as GREEK_STOPS
 from cltk.stop.latin.stops import STOPS_LIST as LATIN_STOPS
+from cltk.utils.file_operations import make_cltk_path
 from nltk.tokenize.punkt import PunktLanguageVars
 import os
 import unittest
@@ -20,16 +21,14 @@ class TestSequenceFunctions(unittest.TestCase):
         """
         corpus_importer = CorpusImporter('greek')
         corpus_importer.import_corpus('greek_models_cltk')
-        file_rel = os.path.join('~/cltk_data/greek/model/greek_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('greek', 'model', 'greek_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
         corpus_importer = CorpusImporter('latin')
         corpus_importer.import_corpus('latin_models_cltk')
-        file_rel = os.path.join('~/cltk_data/latin/model/latin_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('latin', 'model', 'latin_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
     def test_greek_stopwords(self):

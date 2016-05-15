@@ -15,6 +15,7 @@ from cltk.corpus.greek.tlg_index import TLG_WORKS_INDEX
 from cltk.corpus.latin.phi5_index import PHI5_INDEX
 from cltk.corpus.latin.phi5_index import PHI5_WORKS_INDEX
 from cltk.utils.cltk_logger import logger
+from cltk.utils.file_operations import make_cltk_path
 from unicodedata import normalize
 import os
 import regex
@@ -140,8 +141,7 @@ def phi5_plaintext_cleanup(text, rm_punctuation=False, rm_periods=False):
 
 def assemble_tlg_author_filepaths():
     """Reads TLG index and builds a list of absolute filepaths."""
-    plaintext_dir_rel = '~/cltk_data/greek/text/tlg/plaintext/'
-    plaintext_dir = os.path.expanduser(plaintext_dir_rel)
+    plaintext_dir = make_cltk_path('greek', 'text', 'tlg', 'plaintext')
     filepaths = [os.path.join(plaintext_dir, x + '.TXT') for x in TLG_INDEX]
     return filepaths
 
@@ -149,16 +149,14 @@ def assemble_tlg_author_filepaths():
 def assemble_phi5_author_filepaths():
     """Reads PHI5 index and builds a list of absolute filepaths.
     """
-    plaintext_dir_rel = '~/cltk_data/latin/text/phi5/plaintext/'
-    plaintext_dir = os.path.expanduser(plaintext_dir_rel)
+    plaintext_dir = make_cltk_path('latin', 'text', 'phi5', 'plaintext')
     filepaths = [os.path.join(plaintext_dir, x + '.TXT') for x in PHI5_INDEX]
     return filepaths
 
 
 def assemble_tlg_works_filepaths():
     """Reads TLG index and builds a list of absolute filepaths."""
-    plaintext_dir_rel = '~/cltk_data/greek/text/tlg/individual_works/'
-    plaintext_dir = os.path.expanduser(plaintext_dir_rel)
+    plaintext_dir = make_cltk_path('greek', 'text', 'tlg', 'individual_works')
     all_filepaths = []
     for author_code in TLG_WORKS_INDEX:
         author_data = TLG_WORKS_INDEX[author_code]
@@ -171,8 +169,7 @@ def assemble_tlg_works_filepaths():
 
 def assemble_phi5_works_filepaths():
     """Reads PHI5 index and builds a list of absolute filepaths."""
-    plaintext_dir_rel = '~/cltk_data/latin/text/phi5/individual_works/'
-    plaintext_dir = os.path.expanduser(plaintext_dir_rel)
+    plaintext_dir = make_cltk_path('latin', 'text', 'phi5', 'individual_works')
     all_filepaths = []
     for author_code in PHI5_WORKS_INDEX:
         author_data = PHI5_WORKS_INDEX[author_code]

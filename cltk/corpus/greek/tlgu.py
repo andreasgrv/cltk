@@ -11,6 +11,7 @@ __author__ = ['Kyle P. Johnson <kyle@kyle-p-johnson.com>',
 __license__ = 'MIT License. See LICENSE.'
 
 from cltk.utils.cltk_logger import logger
+from cltk.utils.file_operations import make_cltk_path
 from cltk.corpus.utils.importer import CorpusImporter
 import os
 import subprocess
@@ -48,8 +49,7 @@ class TLGU(object):
     @staticmethod
     def _check_import_source():
         """Check if tlgu imported, if not import it."""
-        path_rel = '~/cltk_data/greek/software/greek_software_tlgu/tlgu.h'
-        path = os.path.expanduser(path_rel)
+        path = make_cltk_path('greek', 'software', 'greek_software_tlgu', 'tlgu.h')
         if not os.path.isfile(path):
             try:
                 corpus_importer = CorpusImporter('greek')
@@ -68,8 +68,7 @@ class TLGU(object):
             if not subprocess.check_output(['which', 'gcc']):
                 logger.error('GCC seems not to be installed.')
             else:
-                tlgu_path_rel = '~/cltk_data/greek/software/greek_software_tlgu'
-                tlgu_path = os.path.expanduser(tlgu_path_rel)
+                tlgu_path = make_cltk_path('greek', 'software', 'greek_software_tlgu')
                 if not self.testing:
                     print('Do you want to install TLGU? To continue, press Return. To exit, Control-C.')
                     input()
@@ -174,10 +173,8 @@ class TLGU(object):
         TODO: Add markup options to input.
         TODO: Do something with break_lines, divide_works, and extra_args or rm them
         """
-        orig_path_rel = '~/cltk_data/originals'
-        orig_path = os.path.expanduser(orig_path_rel)
-        target_path_rel = '~/cltk_data'
-        target_path = os.path.expanduser(target_path_rel)
+        orig_path = make_cltk_path('originals')
+        target_path = make_cltk_path()
         assert corpus in ['tlg', 'phi5', 'phi7'], "Corpus must be 'tlg', 'phi5', or 'phi7'"
         if corpus in ['tlg', 'phi5', 'phi7']:
             orig_path = os.path.join(orig_path, corpus)
@@ -222,18 +219,16 @@ class TLGU(object):
         TODO: Write test for this
         """
         if corpus == 'tlg':
-            orig_dir_rel = '~/cltk_data/originals/tlg'
-            works_dir_rel = '~/cltk_data/greek/text/tlg/individual_works'
+            orig_dir = make_cltk_path('originals', 'tlg')
+            works_dir = make_cltk_path('greek', 'text', 'tlg', 'individual_works')
             file_prefix = 'TLG'
             latin = False
         elif corpus == 'phi5':
-            orig_dir_rel = '~/cltk_data/originals/phi5'
-            works_dir_rel = '~/cltk_data/latin/text/phi5/individual_works'
+            orig_dir = make_cltk_path('originals', 'phi5')
+            works_dir = make_cltk_path('latin', 'text', 'phi5', 'individual_works')
             file_prefix = 'LAT'
             latin = True  # this is for the optional TLGU argument to convert()
 
-        orig_dir = os.path.expanduser(orig_dir_rel)
-        works_dir = os.path.expanduser(works_dir_rel)
         if not os.path.exists(works_dir):
             os.makedirs(works_dir)
 

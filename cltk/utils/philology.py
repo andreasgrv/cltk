@@ -7,6 +7,7 @@ __author__ = ['Kyle P. Johnson <kyle@kyle-p-johnson.com>',
 __license__ = 'MIT License. See LICENSE.'
 
 from cltk.utils.cltk_logger import logger
+from cltk.utils.file_operations import make_cltk_path
 from collections import defaultdict
 from nltk.text import ConcordanceIndex
 from nltk.tokenize.punkt import PunktLanguageVars
@@ -69,8 +70,7 @@ class Philology:
             for filepath in filepaths:
                 text += self._read_file(filepath)
         list_of_lists = self._build_concordance(text)
-        user_data_rel = '~/cltk_data/user_data'
-        user_data = os.path.expanduser(user_data_rel)
+        user_data = make_cltk_path('user_data')
         if not os.path.isdir(user_data):
             os.makedirs(user_data)
         file_path = os.path.join(user_data, 'concordance_' + name + '.txt')

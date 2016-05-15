@@ -20,6 +20,7 @@ from cltk.stop.latin.stops import STOPS_LIST as latin_stops
 from cltk.tokenize.word import nltk_tokenize_words
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
+from cltk.utils.file_operations import make_cltk_path
 
 try:
     from gensim.models import Word2Vec
@@ -135,16 +136,15 @@ def get_sims(word, language, lemmatized=False, threshold=0.70):
         # for all languages, especially Greek.
         word = jv_replacer.replace(word).casefold()
 
-    model_dirs = {'greek': '~/cltk_data/greek/model/greek_word2vec_cltk',
-                  'latin': '~/cltk_data/latin/model/latin_word2vec_cltk'}
+    model_dirs = {'greek': make_cltk_path('greek', 'model', 'greek_word2vec_cltk'),
+                  'latin': make_cltk_path('latin', 'model', 'latin_word2vec_cltk')}
     assert language in model_dirs.keys(), 'Langauges available with Word2Vec model: {}'.format(model_dirs.keys())
     if lemmatized:
         lemma_str = '_lemmed'
     else:
         lemma_str = ''
     model_name = '{0}_s100_w30_min5_sg{1}.model'.format(language, lemma_str)
-    model_dir_abs = os.path.expanduser(model_dirs[language])
-    model_path = os.path.join(model_dir_abs, model_name)
+    model_path = os.path.join(model_dirs[language], model_name)
     w2v = Word2Vec()
     try:
         model = w2v.load(model_path)

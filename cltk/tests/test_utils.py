@@ -11,6 +11,7 @@ from cltk.utils.file_operations import make_cltk_path
 from cltk.utils.file_operations import open_pickle
 from cltk.utils.frequency import Frequency
 from cltk.utils.philology import Philology
+from cltk.utils.file_operations import make_cltk_path
 
 
 __author__ = 'Kyle P. Johnson <kyle@kyle-p-johnson.com>'
@@ -26,33 +27,31 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         """
         corpus_importer = CorpusImporter('greek')
         corpus_importer.import_corpus('greek_models_cltk')
-        file_rel = os.path.join('~/cltk_data/greek/model/greek_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('greek', 'model', 'greek_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
         corpus_importer = CorpusImporter('latin')
         corpus_importer.import_corpus('latin_models_cltk')
-        file_rel = os.path.join('~/cltk_data/latin/model/latin_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('latin', 'model', 'latin_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
     def test_open_pickle_fail_missing(self):
         """Test failure to unpickle a file that doesn't exist"""
-        bad_file = 'cltk/tests/doesnt_exist.pickle'
+        bad_file = os.path.join('cltk', 'tests', 'doesnt_exist.pickle')
         with self.assertRaises(FileNotFoundError):
             open_pickle(bad_file)
 
     def test_open_pickle_fail_corrupt(self):
         """Test failure to open corrupted pickle."""
-        bad_file = 'cltk/tests/bad_pickle.pickle'
+        bad_file = os.path.join('cltk', 'tests', 'bad_pickle.pickle')
         with self.assertRaises(EOFError):
             open_pickle(bad_file)
 
     def test_logger(self):
         """Test the CLTK logger."""
-        home_dir = os.path.expanduser('~/cltk_data')
+        home_dir = make_cltk_path()
         log_path = os.path.join(home_dir, 'cltk.log')
         self.assertTrue(log_path)
 
@@ -60,8 +59,9 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         """Test opening pickle. This requires ``greek_models_cltk``
         to have been run in ``setUp()``.
         """
-        pickle_path_rel = '~/cltk_data/greek/model/greek_models_cltk/tokenizers/sentence/greek.pickle'  # pylint: disable=line-too-long
-        pickle_path = os.path.expanduser(pickle_path_rel)
+        pickle_path = make_cltk_path('greek', 'model', 'greek_models_cltk',
+                                         'tokenizers', 'sentence',
+                                         'greek.pickle')
         a_pickle = open_pickle(pickle_path)
         self.assertTrue(a_pickle)
 
@@ -85,25 +85,25 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         philology = Philology()
         text = 'felices cantus ore sonante dedit'
         philology.write_concordance_from_string(text, 'test_string')
-        file = os.path.expanduser('~/cltk_data/user_data/concordance_test_string.txt')
-        is_file = os.path.isfile(file)
+        _file = make_cltk_path('user_data', 'concordance_test_string.txt')
+        is_file = os.path.isfile(_file)
         self.assertTrue(is_file)
 
     def test_concordance_from_file(self):
         """Test ``write_concordance_from_file()`` for file writing completion
         of concordance builder. Doesn't test quality of output."""
         philology = Philology()
-        file = 'cltk/tests/bad_pickle.pickle'
+        file = os.path.join('cltk', 'tests', 'bad_pickle.pickle')
         philology.write_concordance_from_file(file, 'test_file')
-        file = os.path.expanduser('~/cltk_data/user_data/concordance_test_file.txt')
-        is_file = os.path.isfile(file)
+        _file = make_cltk_path('user_data', 'concordance_test_file.txt')
+        is_file = os.path.isfile(_file)
         self.assertTrue(is_file)
 
     def test_concordance_from_file_ioerror(self):
         """Test ``write_concordance_from_file()`` for file writing completion
         of concordance builder, with IOError. Doesn't test quality of output."""
         philology = Philology()
-        bad_path = '/cltk_data/user_data/concordance_test_file.txt'
+        bad_path = os.path.join('cltk_data', 'user_data', 'concordance_test_file.txt')
         with self.assertRaises(IOError):
             philology.write_concordance_from_file(bad_path, 'test_file')
 
@@ -116,7 +116,8 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
     def test_get_module_authors(self):
         """Test opening contribs file."""
         contribs = Contributors()
-        author = contribs.get_module_authors('cltk/corpus/utils/importer.py')[0]
+        auth_path = os.path.join('cltk', 'corpus', 'utils', 'importer.py')
+        author = contribs.get_module_authors(auth_path)[0]
         self.assertEqual(author, 'Kyle P. Johnson <kyle@kyle-p-johnson.com>')
 
     def test_contribs_make_authors_dict(self):

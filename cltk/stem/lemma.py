@@ -4,6 +4,7 @@ __author__ = 'Kyle P. Johnson <kyle@kyle-p-johnson.com>'
 __license__ = 'MIT License. See LICENSE.'
 
 from cltk.utils.cltk_logger import logger
+from cltk.utils.file_operations import make_cltk_path
 import importlib.machinery
 from nltk.tokenize.punkt import PunktLanguageVars
 import os
@@ -26,19 +27,17 @@ class LemmaReplacer(object):  # pylint: disable=too-few-public-methods
     def _load_replacement_patterns(self):
         """Check for availability of lemmatizer for a language."""
         if self.language == 'latin':
-            rel_path = os.path.join('~','cltk_data',
-                                    self.language,
-                                    'model','latin_models_cltk',
-                                    'lemmata','latin_lemmata_cltk.py')
+            rel_path = make_cltk_path(self.language,
+                                      'model', 'latin_models_cltk',
+                                      'lemmata', 'latin_lemmata_cltk.py')
             path = os.path.expanduser(rel_path)
             #logger.info('Loading lemmata. This may take a minute.')
             loader = importlib.machinery.SourceFileLoader('latin_lemmata_cltk', path)
 
         elif self.language == 'greek':
-            rel_path = os.path.join('~','cltk_data',
-                                    self.language,
-                                    'model','greek_models_cltk',
-                                    'lemmata','greek_lemmata_cltk.py')
+            rel_path = make_cltk_path(self.language,
+                                      'model', 'greek_models_cltk',
+                                      'lemmata', 'greek_lemmata_cltk.py')
             path = os.path.expanduser(rel_path)
             #logger.info('Loading lemmata. This may take a minute.')
             loader = importlib.machinery.SourceFileLoader('greek_lemmata_cltk', path)

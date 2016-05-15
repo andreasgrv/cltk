@@ -8,6 +8,7 @@ from cltk.corpus.utils.importer import CorpusImporter
 from cltk.stem.latin.j_v import JVReplacer
 from cltk.tag import ner
 from cltk.tag.pos import POSTag
+from cltk.utils.file_operations import make_cltk_path
 
 __author__ = 'Kyle P. Johnson <kyle@kyle-p-johnson.com>'
 __license__ = 'MIT License. See LICENSE.'
@@ -22,16 +23,14 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         """
         corpus_importer = CorpusImporter('greek')
         corpus_importer.import_corpus('greek_models_cltk')
-        file_rel = os.path.join('~/cltk_data/greek/model/greek_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('greek', 'model', 'greek_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
         corpus_importer = CorpusImporter('latin')
         corpus_importer.import_corpus('latin_models_cltk')
-        file_rel = os.path.join('~/cltk_data/latin/model/latin_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('latin', 'model', 'latin_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
     def test_pos_unigram_greek(self):
@@ -94,17 +93,16 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         tagged = tagger.tag_tnt('Gallia est omnis divisa in partes tres')
         self.assertTrue(tagged)
 
-    def test_check_latest_latin(self):
+    def test_check_latest_latin1(self):
         """Test _check_latest_data()"""
         ner._check_latest_data('latin')
-        names_path = os.path.expanduser('~/cltk_data/latin/model/latin_models_cltk/ner/proper_names.txt')
+        names_path = make_cltk_path('latin', 'model', 'latin_models_cltk', 'ner', 'proper_names.txt')
         self.assertTrue(os.path.isfile(names_path))
 
-    def test_check_latest_latin(self):
+    def test_check_latest_latin2(self):
         """Test _check_latest_data()"""
-        path = '~/cltk_data/latin/model/latin_models_cltk'
+        names_dir = make_cltk_path('latin', 'model', 'latin_models_cltk')
         #p = '~/cltk_data/latin/model/latin_models_cltk/ner/proper_names.txt'
-        names_dir = os.path.expanduser(path)
         shutil.rmtree(names_dir, ignore_errors=True)
         ner._check_latest_data('latin')
         names_path = os.path.join(names_dir, 'ner', 'proper_names.txt')

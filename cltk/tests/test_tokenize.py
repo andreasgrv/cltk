@@ -4,6 +4,7 @@ from cltk.corpus.utils.importer import CorpusImporter
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import nltk_tokenize_words
 from cltk.tokenize.word import WordTokenizer
+from cltk.utils.file_operations import make_cltk_path
 import os
 import unittest
 
@@ -20,16 +21,14 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         """
         corpus_importer = CorpusImporter('greek')
         corpus_importer.import_corpus('greek_models_cltk')
-        file_rel = os.path.join('~/cltk_data/greek/model/greek_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('greek', 'model', 'greek_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
         corpus_importer = CorpusImporter('latin')
         corpus_importer.import_corpus('latin_models_cltk')
-        file_rel = os.path.join('~/cltk_data/latin/model/latin_models_cltk/README.md')
-        file = os.path.expanduser(file_rel)
-        file_exists = os.path.isfile(file)
+        _file = make_cltk_path('latin', 'model', 'latin_models_cltk', 'README.md')
+        file_exists = os.path.isfile(_file)
         self.assertTrue(file_exists)
 
     def test_sentence_tokenizer_latin(self):
