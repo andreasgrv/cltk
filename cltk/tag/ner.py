@@ -2,10 +2,13 @@
 
 from cltk.corpus.utils.importer import CorpusImporter
 from nltk.tokenize.punkt import PunktLanguageVars
+from cltk.utils.file_operations import make_cltk_path
 import os
 
-NER_DICT = {'greek': '~/cltk_data/greek/model/greek_models_cltk/ner/proper_names.txt',
-            'latin': '~/cltk_data/latin/model/latin_models_cltk/ner/proper_names.txt'}
+NER_DICT = {'greek': make_cltk_path('greek', 'model', 'greek_models_cltk',
+                                    'ner', 'proper_names.txt'),
+            'latin': make_cltk_path('latin', 'model', 'latin_models_cltk',
+                                    'ner', 'proper_names.txt')}
 
 
 def _check_latest_data(lang):

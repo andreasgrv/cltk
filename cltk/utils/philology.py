@@ -88,8 +88,7 @@ class Philology:
     def write_concordance_from_string(self, text, name):
         """A reworkinng of write_concordance_from_file(). Refactor these."""
         list_of_lists = self._build_concordance(text)
-        user_data_rel = '~/cltk_data/user_data'
-        user_data = os.path.expanduser(user_data_rel)
+        user_data = make_cltk_path('user_data')
         if not os.path.isdir(user_data):
             os.makedirs(user_data)
         file_path = os.path.join(user_data, 'concordance_' + name + '.txt')

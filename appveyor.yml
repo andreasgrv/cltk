@@ -84,11 +84,11 @@ test_script:
   # Use this once all the test modules pass
   # - "%CMD_IN_ENV% nosetests"
   # Enable/disable these to get all working, then go back to `nosetests`
-  - "%CMD_IN_ENV% python cltk/tests/test_corpus.py"
+  # - "%CMD_IN_ENV% python cltk/tests/test_corpus.py"
   - "%CMD_IN_ENV% python cltk/tests/test_ir.py"
-  - "%CMD_IN_ENV% python cltk/tests/test_prosody.py"
-  - "%CMD_IN_ENV% python cltk/tests/test_stem.py"
-  - "%CMD_IN_ENV% python cltk/tests/test_stop.py"
+  # - "%CMD_IN_ENV% python cltk/tests/test_prosody.py"
+  # - "%CMD_IN_ENV% python cltk/tests/test_stem.py"
+  # - "%CMD_IN_ENV% python cltk/tests/test_stop.py"
   - "%CMD_IN_ENV% python cltk/tests/test_tag.py"
   - "%CMD_IN_ENV% python cltk/tests/test_text_reuse.py"
   - "%CMD_IN_ENV% python cltk/tests/test_tokenize.py"
