@@ -52,7 +52,7 @@ class Frequency:
             file_cleaner = tlg_plaintext_cleanup
 
         for filepath in filepaths:
-            with open(filepath) as file_open:
+            with open(filepath, encoding='utf-8') as file_open:
                 file_read = file_open.read().lower()
             file_clean = file_cleaner(file_read)
             yield file_clean

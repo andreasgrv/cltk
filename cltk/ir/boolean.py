@@ -104,7 +104,7 @@ class CLTKIndex:
                     logger.error(key_error)
                     raise
 
-                with open(path) as file_open:
+                with open(path, encoding='utf-8') as file_open:
                     content = file_open.read()
                 writer.add_document(path=path,
                                     author=author,
@@ -128,7 +128,7 @@ class CLTKIndex:
                     logger.error(key_error)
                     raise
 
-                with open(path) as file_open:
+                with open(path, encoding='utf-8') as file_open:
                     content = file_open.read()
 
                 writer.add_document(path=path,
@@ -174,7 +174,7 @@ class CLTKIndex:
                 output_str += author + '</br>'
                 output_str += filepath + '</br>'
 
-                with open(filepath) as file_open:
+                with open(filepath, encoding='utf-8') as file_open:
                     file_contents = file_open.read()
 
                 highlights = hit.highlights("content", text=file_contents, top=10000000)
@@ -191,11 +191,11 @@ class CLTKIndex:
             output_path = os.path.join(user_dir, save_file + '.html')
 
             try:
-                with open(output_path, 'w') as file_open:
+                with open(output_path, 'w', encoding='utf-8') as file_open:
                     file_open.write(output_str)
             except FileNotFoundError:
                 os.mkdir(user_dir)
-                with open(output_path, 'w') as file_open:
+                with open(output_path, 'w', encoding='utf-8') as file_open:
                     file_open.write(output_str)
         else:
             return output_str
@@ -240,7 +240,7 @@ if __name__ == '__main__':
             output_str += author + '</br>'
             output_str += filepath + '</br>'
 
-            with open(filepath) as file_open:
+            with open(filepath, encoding='utf-8') as file_open:
                 file_contents = file_open.read()
 
             highlights = hit.highlights("content", text=file_contents, top=10000000)
@@ -253,11 +253,11 @@ if __name__ == '__main__':
             output_str += lines_br + '</br></br>'
 
     try:
-        with open(output_path, 'w') as file_open:
+        with open(output_path, 'w', encoding='utf-8') as file_open:
             file_open.write(output_str)
     except FileNotFoundError:
         os.mkdir(user_dir)
-        with open(output_path, 'w') as file_open:
+        with open(output_path, 'w', encoding='utf-8') as file_open:
             file_open.write(output_str)
 
 

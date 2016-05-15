@@ -220,7 +220,7 @@ def search_corpus(pattern, corpus, context, case_insensitive=True, expand_keywor
             pattern = pattern
 
     for path in paths:
-        with open(path) as file_open:
+        with open(path, encoding='utf-8') as file_open:
             text = file_open.read()
         for one_pattern in pattern:
             _matches = match_regex(text, one_pattern, language=lang, context=context, case_insensitive=case_insensitive)

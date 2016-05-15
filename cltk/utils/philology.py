@@ -27,7 +27,7 @@ class Philology:
     def _read_file(self, filepath):
         """Read a file and return it as a string"""
         filepath = os.path.expanduser(filepath)  #? Check this is ok if absolute paths passed in
-        with open(filepath) as opened_file:
+        with open(filepath, encoding='utf-8') as opened_file:
             read_file = opened_file.read()
             return read_file
 
@@ -79,7 +79,7 @@ class Philology:
             for line in word_list:
                 concordance_output += line + '\n'
         try:
-            with open(file_path, 'w') as open_file:
+            with open(file_path, 'w', encoding='utf-8') as open_file:
                 open_file.write(concordance_output)
                 logger.info("Wrote concordance to '%s'." % file_path)
         except IOError as io_error:
@@ -97,7 +97,7 @@ class Philology:
             for line in word_list:
                 concordance_output += line + '\n'
         try:
-            with open(file_path, 'w') as open_file:
+            with open(file_path, 'w', encoding='utf-8') as open_file:
                 open_file.write(concordance_output)
                 logger.info("Wrote concordance to '%s'." % file_path)
         except IOError as io_error:

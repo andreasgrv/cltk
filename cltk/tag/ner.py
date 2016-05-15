@@ -54,7 +54,7 @@ def tag_ner(lang, input_text, output_type=list):
         input_text = new_tokens
 
     ner_file_path = os.path.expanduser(NER_DICT[lang])
-    with open(ner_file_path) as file_open:
+    with open(ner_file_path, encoding='utf-8') as file_open:
         ner_str = file_open.read()
     ner_list = ner_str.split('\n')
 

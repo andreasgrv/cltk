@@ -63,7 +63,7 @@ def gen_docs(corpus, lemmatize, rm_stops):
     sent_tokenizer = TokenizeSentence(language)
 
     for filepath in filepaths:
-        with open(filepath) as f:
+        with open(filepath, encoding='utf-8') as f:
             text = f.read()
         # light first-pass cleanup, before sentence tokenization (which relies on punctuation)
         text = text_cleaner(text, rm_punctuation=False, rm_periods=False)

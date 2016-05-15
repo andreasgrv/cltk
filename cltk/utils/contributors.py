@@ -96,7 +96,7 @@ class Contributors:
                 file_str += '* ' + module + '\n'
             file_str += '\n'
         file_name = 'contributors.md'
-        with open(file_name, 'w') as file_open:
+        with open(file_name, 'w', encoding='utf-8') as file_open:
             file_open.write(file_str)
         logger.info('Wrote contribs file at "%s".', file_name)
 

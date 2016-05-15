@@ -118,7 +118,7 @@ def select_id_by_name(query):
 
 def open_json(_file):
     """Loads the json file as a dictionary and returns it."""
-    with open(_file) as f:
+    with open(_file, encoding='utf-8') as f:
         return json.load(f)
 
 # Work numbers

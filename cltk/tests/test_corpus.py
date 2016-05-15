@@ -94,7 +94,7 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         out_test = make_cltk_path('tlgu_test_text_unicode.txt')
         tlgu = TLGU(testing=True)
         tlgu.convert(in_test, out_test)
-        with open(out_test) as out_file:
+        with open(out_test, encoding='utf-8') as out_file:
             new_text = out_file.read()
         os.remove(out_test)
         target = """
