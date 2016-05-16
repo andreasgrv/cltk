@@ -87,17 +87,15 @@ class CorpusImporter():
             raise CorpusImportError(msg)
 
     @staticmethod
-    def _copy_dir_recursive(src_rel, dst_rel):
-        """Copy contents of one directory to another. `dst_rel` dir cannot
+    def _copy_dir_recursive(src, dst):
+        """Copy contents of one directory to another. `dst` dir cannot
         exist. Source: http://stackoverflow.com/a/1994840
         TODO: Move this to file_operations.py module.
-        :type src_rel: str
-        :param src_rel: Directory to be copied.
-        :type dst_rel: str
-        :param dst_rel: Directory to be created with contents of ``src_rel``.
+        :type src: str
+        :param src: Directory to be copied.
+        :type dst: str
+        :param dst: Directory to be created with contents of ``src``.
         """
-        src = os.path.expanduser(src_rel)
-        dst = os.path.expanduser(dst_rel)
         try:
             shutil.copytree(src, dst)
             logger.info('Files copied from %s to %s', src, dst)
@@ -144,8 +142,7 @@ class CorpusImporter():
         if location == 'remote':
             git_uri = urljoin('https://github.com/cltk/', corpus_name + '.git')
             # self._download_corpus(corpus_type, corpus_name, path)
-            type_dir_rel = make_cltk_path(self.language, corpus_type)
-            type_dir = os.path.expanduser(type_dir_rel)
+            type_dir = make_cltk_path(self.language, corpus_type)
             target_dir = os.path.join(type_dir, corpus_name)
             target_file = os.path.join(type_dir, corpus_name, 'README.md')
             # check if corpus already present
@@ -177,24 +174,17 @@ class CorpusImporter():
             msg = "Importing from local path: '{}'".format(local_path)
             logger.info(msg)
             if corpus_name in ('phi5', 'phi7', 'tlg'):
+                # normalize local_path for checking dir
+                local_path = local_path.rstrip(os.pathsep)
                 if corpus_name == 'phi5':
-                    # normalize path for checking dir
-                    if local_path.endswith('/'):
-                        local_path = local_path[:-1]
                     # check for right corpus dir
                     if os.path.split(local_path)[1] != 'PHI5':
                         logger.info("Directory must be named 'PHI5'.")
                 if corpus_name == 'phi7':
-                    # normalize local_path for checking dir
-                    if local_path.endswith('/'):
-                        local_path = local_path[:-1]
                     # check for right corpus dir
                     if os.path.split(local_path)[1] != 'PHI7':
                         logger.info("Directory must be named 'PHI7'.")
                 if corpus_name == 'tlg':
-                    # normalize path for checking dir
-                    if local_path.endswith('/'):
-                        local_path = local_path[:-1]
                     # check for right corpus dir
                     if os.path.split(local_path)[1] != 'TLG_E':
                         logger.info("Directory must be named 'TLG_E'.")
