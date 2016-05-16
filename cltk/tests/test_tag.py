@@ -97,6 +97,7 @@ class TestSequenceFunctions(unittest.TestCase):  # pylint: disable=R0904
         """Test _check_latest_data()"""
         ner._check_latest_data('latin')
         names_path = make_cltk_path('latin', 'model', 'latin_models_cltk', 'ner', 'proper_names.txt')
+        print('Example path: ' % names_path)
         self.assertTrue(os.path.isfile(names_path))
 
     def test_check_latest_latin2(self):

@@ -142,7 +142,7 @@ class CorpusImporter():
         if location == 'remote':
             git_uri = urljoin('https://github.com/cltk/', corpus_name + '.git')
             # self._download_corpus(corpus_type, corpus_name, path)
-            type_dir = make_cltk_path(self.language, corpus_type)
+            type_dir = os.path.join('cltk_data', self.language, corpus_type)
             target_dir = os.path.join(type_dir, corpus_name)
             target_file = os.path.join(type_dir, corpus_name, 'README.md')
             # check if corpus already present
