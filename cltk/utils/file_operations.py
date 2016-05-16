@@ -34,7 +34,7 @@ def open_pickle(path: str):
     :rtype : object
     """
     try:
-        with open(path, 'rb', encoding='utf-8') as opened_pickle:
+        with open(path, 'rb') as opened_pickle:
             try:
                 return pickle.load(opened_pickle)
             except Exception as pickle_error:
